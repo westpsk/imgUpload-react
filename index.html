@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="./example.css">
+<script src="../build/react.js"></script>
+<script src="../build/react-dom.js"></script>
+<script src="../build/browser.min.js"></script>
+<title>Example</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="./src/fileInput.js"></script>
+<script type="text/javascript">
+;(function () {
+
+  'use strict'
+
+  var App = React.createClass({
+
+    getInitialState: function () {
+      return {
+        files: []
+      }
+    },
+
+    onChange: function (files) {
+      this.setState({
+        files: this.state.files.concat(files)
+      })
+    },
+
+    render: function () {
+      return React.createElement(
+        'div',
+        {
+          className: 'upload-box'
+        },
+        React.createElement(FileInput, {
+          onChange: this.onChange,
+          multiple: true
+        }),
+        // Preview render
+        this.state.files.length ? React.createElement(
+          'div',
+          {
+            className: 'thumbs-box'
+          },
+          this.state.files.map(function (file, index) {
+            return React.createElement(
+              'div',
+              {
+                key: index
+              },
+              React.createElement(
+                'img',
+                {
+                  src: file.thumb
+                }
+              )
+            )
+          })
+        ) : null
+      )
+    }
+
+  })
+
+  ReactDOM.render(React.createElement(App, null), document.querySelector('#app'))
+
+})()
+</script>
+</body>
+</html>
